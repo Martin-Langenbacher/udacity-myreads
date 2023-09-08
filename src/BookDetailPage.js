@@ -1,5 +1,15 @@
-const BookDetailPage = () => {
-    return <h1>BookDetailPage</h1>
-}
+import Header from "./components/Header";
 
-export default BookDetailPage
+const BookDetailPage = () => {
+  return (
+    <>
+    <Header />
+      {/* <div className="list-books">
+        
+      </div> */}
+      <h1>BookDetailPage</h1>
+    </>
+  );
+};
+
+export default BookDetailPage;

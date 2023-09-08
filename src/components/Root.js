@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navigation from "./Navigation";
 
-const RootPage = () => {
+const RootPage = ({books}) => {
   return (
     <>
       <Navigation />

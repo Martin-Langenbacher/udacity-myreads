@@ -1,14 +1,14 @@
-const BookShelfChanger = () => {
-const  handleSelectButton = (event) => {
-    console.log(event.target.selectedOptions[0].getAttribute("value"));
-    // console.log(event.target.selectedOptions[1].getAttribute("value"));
-  }
-
+const BookShelfChanger = ({ onShelfChange }) => {
+  const handleSelectButton = (event) => {
+    const newSelectedShelf =
+      event.target.selectedOptions[0].getAttribute("value");
+    onShelfChange(newSelectedShelf);
+  };
 
   return (
     <div className="book-shelf-changer">
-      <select name="abc" id="input-abc" onChange={handleSelectButton}>
-        <option value="none" disabled>
+      <select defaultValue="disabled" onChange={handleSelectButton}>
+        <option value="disabled" disabled>
           Move to...
         </option>
         <option value="currentlyReading">Currently Reading</option>

@@ -1,6 +1,10 @@
 import Book from "./Book";
 
-const Shelf = ({ shelf, books }) => {
+const Shelf = ({ shelf, books, bookShelfHasChanged }) => {
+  const onChangeBook = (newBook) => {
+    bookShelfHasChanged(newBook);
+  };
+
   return (
     <div className="list-books-content">
       <div>
@@ -11,7 +15,14 @@ const Shelf = ({ shelf, books }) => {
               {books.map((book) => {
                 const bookInThisShelf = shelf.shelfname === book.shelf;
                 return (
-                  bookInThisShelf && <Book key={book.bookTitle} book={book} />
+                  bookInThisShelf && (
+                    <Book
+                      key={book.bookTitle}
+                      book={book}
+                      shelf={book.shelf}
+                      onBookChange={onChangeBook}
+                    />
+                  )
                 );
               })}
             </ol>

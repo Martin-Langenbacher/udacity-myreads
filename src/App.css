@@ -68,7 +68,8 @@ body,
 /* search page */
 
 .search-books-bar {
-  position: fixed;
+  /* position: fixed; */
+  margin-top: 20px;
   width: 100%;
   top: 0;
   left: 0;
@@ -86,6 +87,11 @@ body,
   font-size: 1.25em;
   border: none;
   outline: none;
+}
+
+.search-button-back {
+  justify-content: center;
+  text-align: center;
 }
 
 .close-search {
