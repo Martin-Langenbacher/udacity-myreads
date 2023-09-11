@@ -24,6 +24,13 @@ function App() {
     setBooks(booksAfterChange);
   };
 
+  const bookAddedFromSearchPage = (bookToAdd) => {
+    const newArrayOfBooks = [...books, bookToAdd];
+    console.log("BookToAdd: ", bookToAdd);
+    setBooks(newArrayOfBooks);
+    console.log(books);
+  };
+
   return (
     <Routes>
       <Route
@@ -37,7 +44,10 @@ function App() {
           />
         }
       />
-      <Route path="search" element={<SearchPage />} />
+      <Route
+        path="search"
+        element={<SearchPage addThisBook={bookAddedFromSearchPage} />}
+      />
       <Route path="book/:id" element={<BookDetailPage />} />
     </Routes>
   );
