@@ -8,6 +8,7 @@ import Book from "./Book";
 const SearchPage = ({ addThisBook }) => {
   const [searchString, setSearchString] = useState("");
   const [searchResults, setSearchResults] = useState();
+  const [foundResult, setfoundResult] = useState(false);
 
   const onChangeBookShelf = (bookWhichWillChange) => {
     const newShelfForTheBook = {
@@ -17,21 +18,26 @@ const SearchPage = ({ addThisBook }) => {
       author: bookWhichWillChange.author,
       shelf: bookWhichWillChange.shelf,
     };
-
     addThisBook(newShelfForTheBook);
   };
 
   useEffect(() => {
     console.log("SearchString: ", `>>>${searchString}<<<`);
+    if (searchString === "") {
+      setfoundResult(false);
+      return;
+    }
 
     search(searchString, 10)
       .then((res) => {
         let newArrayResult = [];
+        console.log("result: ", res);
 
         if (res?.items?.length === 0) {
           setSearchResults([]);
+          setfoundResult(false);
         } else {
-          console.log("else");
+          setfoundResult(true);
           res?.forEach((element) => {
             const author =
               element.authors && element.authors.length > 0
@@ -40,7 +46,7 @@ const SearchPage = ({ addThisBook }) => {
 
             const urlForPic = `url("${element.imageLinks?.smallThumbnail}")`;
             const newSearchElement = {
-              id: Math.random(),
+              id: element.id,
               backgroundImage: urlForPic,
               bookTitle: element.title,
               author: author,
@@ -49,7 +55,6 @@ const SearchPage = ({ addThisBook }) => {
             newArrayResult.push(newSearchElement);
           });
           setSearchResults(newArrayResult);
-          console.log("New !!!!! newArrayResult", newArrayResult);
         }
       })
       .catch((error) => {
@@ -59,9 +64,7 @@ const SearchPage = ({ addThisBook }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
-
     const inputValue = e.target.value;
-    console.log("in handle Change: ", inputValue);
     setSearchString(inputValue);
   };
 
@@ -86,19 +89,22 @@ const SearchPage = ({ addThisBook }) => {
           </form>
         </div>
       </div>
-      <div className="search-books-results">
-        <ol className="books-grid">
-          {searchResults?.map((book) => {
-            return (
-              <Book
-                key={book.id}
-                book={book}
-                onBookChange={onChangeBookShelf}
-              />
-            );
-          })}
-        </ol>
-      </div>
+      {foundResult && (
+        <div className="search-books-results">
+          <ol className="books-grid">
+            {searchResults?.map((book) => {
+              return (
+                <Book
+                  key={book.id}
+                  book={book}
+                  onBookChange={onChangeBookShelf}
+                />
+              );
+            })}
+          </ol>
+        </div>
+      )}
+      {!foundResult && <p>No result found for ' {searchString} ' </p>}
       <div className="search-button-back">
         <Link to="/">
           <button>Go back to Home</button>
@@ -135,10 +141,8 @@ export default SearchPage;
   }, []);
   */
 
-
-
 // OLD Code: =========================================
-  /*
+/*
   const submitSearch = (event) => {
     event.preventDefault();
     console.log("textInSubmit", searchString);

@@ -15,8 +15,8 @@ const SHELFS = [
 ];
 
 function App() {
-  const [books, setBooks] = useState(BOOKS);
-
+  // const [books, setBooks] = useState(BOOKS);
+  const [books, setBooks] = useState([]);
   const handleBooksDataChange = (newBook) => {
     const booksAfterChange = books.map((book) =>
       book.id === newBook.id ? newBook : book
@@ -48,7 +48,16 @@ function App() {
         path="search"
         element={<SearchPage addThisBook={bookAddedFromSearchPage} />}
       />
-      <Route path="book/:id" element={<BookDetailPage />} />
+      <Route
+        path="book/:id"
+        element={
+          <BookDetailPage
+            addThisBook={bookAddedFromSearchPage}
+            onBooksDataChange={handleBooksDataChange}
+            books={books}
+          />
+        }
+      />
     </Routes>
   );
 }
@@ -56,6 +65,7 @@ function App() {
 export default App;
 
 // Initial Book values...
+/*
 const BOOKS = [
   {
     id: 1,
@@ -114,3 +124,4 @@ const BOOKS = [
     shelf: "read",
   },
 ];
+*/

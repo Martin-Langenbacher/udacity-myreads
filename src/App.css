@@ -6,6 +6,9 @@ body,
 body {
   line-height: 1.5;
 }
+ul {
+  list-style-type: none;
+}
 body,
 .app {
   background: white;
