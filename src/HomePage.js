@@ -20,7 +20,16 @@ const HomePage = ({ shelfs, books, onBooksDataChange }) => {
           bookShelfHasChanged={bookShelfHasChanged}
         />
       ))}
-
+      <div className="search-button-back">
+        <Link to="/experiments">
+          <button>Experiment Button: Drag-and-Drop</button>
+        </Link>
+      </div>
+      <div className="search-button-back">
+        <Link to="/experiments2">
+          <button>Experiment Button: Drag-and-Drop 2</button>
+        </Link>
+      </div>
       <div className="open-search">
         <Link
           to="/search"

@@ -8,11 +8,10 @@ import { get } from "./BooksAPI";
 
 const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
   const [detailBook, setDetailBook] = useState({});
-  const [additionalDatoToABook, setAdditionalDatoToABook] = useState({});
+  const [additionalDataToABook, setAdditionalDataToABook] = useState({});
   const { id } = useParams();
 
   const onChangeBookShelf = (bookWhichWillChange) => {
-    console.log("bookWhichWillChange", bookWhichWillChange);
     const bookFromDetailPage = {
       id: bookWhichWillChange.id,
       backgroundImage: bookWhichWillChange.backgroundImage,
@@ -22,31 +21,17 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
     };
 
     if (books.some((book) => book.id === bookWhichWillChange.id)) {
-      console.log("Element exists in the array.");
       // Book already exist:
       onBooksDataChange(bookFromDetailPage);
     } else {
-      console.log("Element does not exist in the array.");
       // New book (deep dive via SearchPage)
       addThisBook(bookFromDetailPage);
     }
-
-    /*
-    const bookAlreadyExists = (books) => {
-      books.some((book) => book.id === bookWhichWillChange.id);
-    };
-    console.log("******************", bookAlreadyExists);
-    if (bookAlreadyExists) {
-    } else {
-    }
-    */
   };
 
   useEffect(() => {
     get(id)
       .then((res) => {
-        console.log("result: ", res);
-
         const author =
           res.authors && res.authors.length > 0 ? res.authors[0] : "Unknown";
 
@@ -58,7 +43,7 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
           shelf: "none",
         };
 
-        const additionalDatoToABook = {
+        const additionalDataToABook = {
           description: res.description,
           categories: res.categories,
           publisher: res.publisher,
@@ -72,12 +57,8 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
           printType: res.printType,
           ratingCount: res.ratingCount,
         };
-
-        console.log("detailBookData >>>>>", detailBookData);
         setDetailBook(detailBookData);
-
-        console.log("detailBookData >>>>>", additionalDatoToABook);
-        setAdditionalDatoToABook(additionalDatoToABook);
+        setAdditionalDataToABook(additionalDataToABook);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -97,32 +78,32 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
         <ol className="books-grid">
           <Book key={id} book={detailBook} onBookChange={onChangeBookShelf} />
         </ol>
-        <p>{additionalDatoToABook.description}</p>
+        <p>{additionalDataToABook.description}</p>
         <h2>More information:</h2>
         <ul>
-          <li>Publisher: {additionalDatoToABook.publisher}</li>
-          <li>Published date: {additionalDatoToABook.publishedDate}</li>
-          <li>Content Version: {additionalDatoToABook.contentVersion}</li>
-          <li>Amount of Pages: {additionalDatoToABook.pageCount}</li>
+          <li>Publisher: {additionalDataToABook.publisher}</li>
+          <li>Published date: {additionalDataToABook.publishedDate}</li>
+          <li>Content Version: {additionalDataToABook.contentVersion}</li>
+          <li>Amount of Pages: {additionalDataToABook.pageCount}</li>
           <li>
             Language:{" "}
-            {additionalDatoToABook.language === "en"
+            {additionalDataToABook.language === "en"
               ? "English"
-              : additionalDatoToABook.language}
+              : additionalDataToABook.language}
           </li>
-          <li>Categories: {additionalDatoToABook.categories}</li>
-          <li>Maturity Rating: {additionalDatoToABook.maturityRating}</li>
-          <li>Print type: {additionalDatoToABook.printType}</li>
+          <li>Categories: {additionalDataToABook.categories}</li>
+          <li>Maturity Rating: {additionalDataToABook.maturityRating}</li>
+          <li>Print type: {additionalDataToABook.printType}</li>
           <li>
             <div>Link: </div>
-            <a href={additionalDatoToABook.infoLink}>
-              {additionalDatoToABook.infoLink}
+            <a href={additionalDataToABook.infoLink}>
+              {additionalDataToABook.infoLink}
             </a>
           </li>
           <li>
             Raitings count:{" "}
-            {additionalDatoToABook.ratingCount
-              ? additionalDatoToABook.ratingCount
+            {additionalDataToABook.ratingCount
+              ? additionalDataToABook.ratingCount
               : "Not available."}
           </li>
         </ul>

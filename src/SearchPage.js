@@ -31,7 +31,6 @@ const SearchPage = ({ addThisBook }) => {
     search(searchString, 10)
       .then((res) => {
         let newArrayResult = [];
-        console.log("result: ", res);
 
         if (res?.items?.length === 0) {
           setSearchResults([]);
@@ -145,8 +144,6 @@ export default SearchPage;
 /*
   const submitSearch = (event) => {
     event.preventDefault();
-    console.log("textInSubmit", searchString);
-
     searchABook(searchString); // Assuming you have a function to search books
 
   // Optionally, you can also reset the search input field

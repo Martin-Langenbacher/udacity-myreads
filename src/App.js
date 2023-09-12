@@ -1,11 +1,13 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+// import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import SearchPage from "./SearchPage";
+import DragAndDrop from "./experiments/DragAndDrop";
+import DragAndDrop2 from "./experiments/DragAndDrop2";
 import HomePage from "./HomePage";
 import BookDetailPage from "./BookDetailPage";
-import RootPage from "./components/Root";
+// import RootPage from "./components/Root";
 import { useState } from "react";
 
 const SHELFS = [
@@ -26,9 +28,7 @@ function App() {
 
   const bookAddedFromSearchPage = (bookToAdd) => {
     const newArrayOfBooks = [...books, bookToAdd];
-    console.log("BookToAdd: ", bookToAdd);
     setBooks(newArrayOfBooks);
-    console.log(books);
   };
 
   return (
@@ -58,6 +58,8 @@ function App() {
           />
         }
       />
+      <Route path="experiments" element={<DragAndDrop />} />
+      <Route path="experiments2" element={<DragAndDrop2 />} />
     </Routes>
   );
 }
