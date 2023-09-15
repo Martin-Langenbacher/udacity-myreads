@@ -2,31 +2,44 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+// Note:
+//======
+// This is a test --> it does not work properly, yet.
+// The book cannot be inserted at any position.
+
+// I was not successful to implement it in the excercise.
+// I assume that I have to change the structore of the application.
+
+// --> FEEDBACK, welcome!
+
 const DragAndDropBooks = () => {
   const [books, setBooks] = useState(BOOKS);
-  //   const [draggedItem, setDraggedItem] = useState(null);
-
-  //   const handleDragStart = (e, index) => {
-  //     setDraggedItem(books[index]);
-  //     e.dataTransfer.setData("text/plain", ""); // Required for some browsers
-  //   };
-
-  //   const handleDragOver = (e, index) => {
-  //     e.preventDefault(); // Allow drop
-  //   };
-
-  //   const handleDrop = (e, index) => {
-  //     e.preventDefault();
-  //     const newBooks = [...books];
-  //     newBooks.splice(index, 0, draggedItem); // Insert the dragged item at the new position
-  //     setBooks(newBooks);
-  //     setDraggedItem(null);
-  //   };
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
 
     console.log("RESULT: ", result);
+
+    if (!destination) return;
+
+    if (
+      destination.draggableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    let bookToChange;
+    let booksList = books;
+    bookToChange = booksList[source.index];
+    // removes a book at his index, only one
+    booksList.splice(source.index, 1);
+
+    // adds a book at the destination.index, but does not delet one,
+    // bookToChange is the added book
+    booksList.splice(destination.index, 0, bookToChange);
+
+    setBooks(booksList);
   };
 
   return (
@@ -38,24 +51,20 @@ const DragAndDropBooks = () => {
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <ol className="books-grid">
                 {books.map((book, index) => (
-                  <Draggable draggableId={book.id.toString()} index={index} key={index}>
+                  <Draggable
+                    draggableId={book.id.toString()}
+                    index={index}
+                    key={index}
+                  >
                     {(provided) => (
                       <div
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
-                        
                       >
                         {/* <li> */}
                         <div className="book" index={index}>
-                          <div
-                            className="book-top"
-                            //   draggable
-                            //key={index}
-                            //   onDragStart={(e) => handleDragStart(e, index)}
-                            //   onDragOver={(e) => handleDragOver(e, index)}
-                            //   onDrop={(e) => handleDrop(e, index)}
-                          >
+                          <div className="book-top">
                             <Link
                               className="book-cover"
                               to={`/book/${book.id}`}
@@ -90,7 +99,8 @@ const DragAndDropBooks = () => {
 };
 export default DragAndDropBooks;
 
-const BOOKS = [
+// initial books - only used in DragAndDropBooks.js at the moment
+export const BOOKS = [
   {
     id: 1,
     backgroundImage:
@@ -148,69 +158,3 @@ const BOOKS = [
     shelf: "read",
   },
 ];
-
-/*
-
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-const DragAndDropBooks = () => {
-  const [books, setBooks] = useState(BOOKS);
-  const [draggedItem, setDraggedItem] = useState(null);
-
-  const handleDragStart = (e, index) => {
-    setDraggedItem(books[index]);
-    e.dataTransfer.setData("text/plain", ""); // Required for some browsers
-  };
-
-  const handleDragOver = (e, index) => {
-    e.preventDefault(); // Allow drop
-  };
-
-  const handleDrop = (e, index) => {
-    e.preventDefault();
-    const newBooks = [...books];
-    newBooks.splice(index, 0, draggedItem); // Insert the dragged item at the new position
-    setBooks(newBooks);
-    setDraggedItem(null);
-  };
-
-  return (
-    <div>
-      <h2>Drag and Drop Example only</h2>
-      <ol className="books-grid">
-        {books.map((book, index) => (
-          <div>
-            <li>
-              <div className="book">
-                <div
-                  className="book-top"
-                  draggable
-                  key={index}
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragOver={(e) => handleDragOver(e, index)}
-                  onDrop={(e) => handleDrop(e, index)}
-                >
-                  <Link
-                    className="book-cover"
-                    to={`/book/${book.id}`}
-                    style={{
-                      width: 128,
-                      height: 192,
-                      backgroundImage: book.backgroundImage,
-                    }}
-                  ></Link>
-                </div>
-                <div className="book-title">{book.bookTitle}</div>
-                <div className="book-authors">{book.author}</div>
-              </div>
-            </li>
-          </div>
-        ))}
-      </ol>
-    </div>
-  );
-};
-export default DragAndDropBooks;
-
-*/

@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import Header from "./components/Header";
 import { useState, useEffect } from "react";
 
-import { getAll, search } from "./BooksAPI";
+import { search } from "./BooksAPI";
+// import { getAll } from "./BooksAPI";
 import Book from "./Book";
 
 const SearchPage = ({ addThisBook }) => {
@@ -115,6 +116,7 @@ const SearchPage = ({ addThisBook }) => {
 
 export default SearchPage;
 
+// This is the code for the getAll-function
 /* Do NOT DELETE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   useEffect(() => {
     getAll()
