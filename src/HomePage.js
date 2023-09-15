@@ -26,8 +26,8 @@ const HomePage = ({ shelfs, books, onBooksDataChange }) => {
         </Link>
       </div>
       <div className="search-button-back">
-        <Link to="/experiments2">
-          <button>Experiment Button: Drag-and-Drop 2</button>
+        <Link to="/draganddrop">
+          <button>Drag-and-Drop - Test</button>
         </Link>
       </div>
       <div className="open-search">

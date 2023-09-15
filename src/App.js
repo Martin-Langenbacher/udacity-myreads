@@ -4,11 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import SearchPage from "./SearchPage";
 import DragAndDrop from "./experiments/DragAndDrop";
-import DragAndDrop2 from "./experiments/DragAndDrop2";
+import DragAndDropBooks from "./experiments/DragAndDropBooks";
 import HomePage from "./HomePage";
 import BookDetailPage from "./BookDetailPage";
-// import RootPage from "./components/Root";
 import { useState } from "react";
+
 
 const SHELFS = [
   { shelfname: "currentlyReading", title: "Currently Reading" },
@@ -59,7 +59,7 @@ function App() {
         }
       />
       <Route path="experiments" element={<DragAndDrop />} />
-      <Route path="experiments2" element={<DragAndDrop2 />} />
+      <Route path="draganddrop" element={<DragAndDropBooks />} />
     </Routes>
   );
 }
