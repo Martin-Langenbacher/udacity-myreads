@@ -12,14 +12,19 @@ const HomePage = ({ shelfs, books, onBooksDataChange }) => {
     <div className="app">
       {/* <div className="list-books"> */}
       <Header />
-      {shelfs.map((shelf) => (
-        <Shelf
-          key={shelf.shelfname}
-          shelf={shelf}
-          books={books}
-          bookShelfHasChanged={bookShelfHasChanged}
-        />
-      ))}
+      {shelfs.map((shelf) => {
+        return (
+          shelf.shelfname !== "none" && (
+            <Shelf
+              key={shelf.shelfname}
+              shelf={shelf}
+              books={books}
+              bookShelfHasChanged={bookShelfHasChanged}
+              shelfs={shelfs}
+            />
+          )
+        );
+      })}
       <div className="search-button-back">
         <Link to="/experiments">
           <button>Experiment Button: Drag-and-Drop</button>

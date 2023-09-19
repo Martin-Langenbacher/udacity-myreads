@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Book from "./Book";
 import { get } from "./BooksAPI";
 
-const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
+const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
   const [detailBook, setDetailBook] = useState({});
   const [additionalDataToABook, setAdditionalDataToABook] = useState({});
   const { id } = useParams();
@@ -33,7 +33,9 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
     get(id)
       .then((res) => {
         const author =
-          res.authors && res.authors.length > 0 ? res.authors[0] : "Unknown";
+          res.authors && res.authors.length > 0
+            ? res.authors.join(", ")
+            : "Unknown";
 
         const detailBookData = {
           id: id,
@@ -76,7 +78,12 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books }) => {
 
       <div className="search-books-results">
         <ol className="books-grid">
-          <Book key={id} book={detailBook} onBookChange={onChangeBookShelf} />
+          <Book
+            key={id}
+            book={detailBook}
+            onBookChange={onChangeBookShelf}
+            shelfs={shelfs}
+          />
         </ol>
         <p>{additionalDataToABook.description}</p>
         <h2>More information:</h2>

@@ -1,4 +1,6 @@
-const BookShelfChanger = ({ onShelfChange }) => {
+import PropTypes from "prop-types";
+
+const BookShelfChanger = ({ onShelfChange, shelfs, book }) => {
   const handleSelectButton = (event) => {
     const newSelectedShelf =
       event.target.selectedOptions[0].getAttribute("value");
@@ -7,17 +9,24 @@ const BookShelfChanger = ({ onShelfChange }) => {
 
   return (
     <div className="book-shelf-changer">
-      <select defaultValue="disabled" onChange={handleSelectButton}>
+      <select value={book.shelf} onChange={handleSelectButton}>
         <option value="disabled" disabled>
           Move to...
         </option>
-        <option value="currentlyReading">Currently Reading</option>
-        <option value="wantToRead">Want to Read</option>
-        <option value="read">Read</option>
-        <option value="none">None</option>
+        {shelfs.map((shelf) => (
+          <option key={shelf.shelfname} value={shelf.shelfname}>
+            {shelf.title}
+          </option>
+        ))}
       </select>
     </div>
   );
+};
+
+BookShelfChanger.propTypes = {
+  onShelfChange: PropTypes.func.isRequired,
+  shelfs: PropTypes.array.isRequired,
+  book: PropTypes.object.isRequired,
 };
 
 export default BookShelfChanger;

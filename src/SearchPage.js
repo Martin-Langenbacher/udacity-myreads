@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import Header from "./components/Header";
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import { search } from "./BooksAPI";
 // import { getAll } from "./BooksAPI";
 import Book from "./Book";
 
-const SearchPage = ({ addThisBook }) => {
+const SearchPage = ({ addThisBook, shelfs }) => {
   const [searchString, setSearchString] = useState("");
   const [searchResults, setSearchResults] = useState();
   const [foundResult, setfoundResult] = useState(false);
@@ -41,7 +42,8 @@ const SearchPage = ({ addThisBook }) => {
           res?.forEach((element) => {
             const author =
               element.authors && element.authors.length > 0
-                ? element.authors[0]
+                ? // alt: ? element.authors[0]
+                  element.authors
                 : "Unknown";
 
             const urlForPic = `url("${element.imageLinks?.smallThumbnail}")`;
@@ -98,6 +100,7 @@ const SearchPage = ({ addThisBook }) => {
                   key={book.id}
                   book={book}
                   onBookChange={onChangeBookShelf}
+                  shelfs={shelfs}
                 />
               );
             })}
@@ -114,42 +117,9 @@ const SearchPage = ({ addThisBook }) => {
   );
 };
 
+SearchPage.propTypes = {
+  addThisBook: PropTypes.func.isRequired,
+  shelfs: PropTypes.array.isRequired,
+};
+
 export default SearchPage;
-
-// This is the code for the getAll-function
-/* Do NOT DELETE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  useEffect(() => {
-    getAll()
-      .then((res) => {
-        const newArrayResult = [];
-        res.forEach((element) => {
-          const urlForPic = `url("${element.imageLinks.smallThumbnail}")`;
-          const newSearchElement = {
-            id: Math.random(),
-            backgroundImage: urlForPic,
-            bookTitle: element.title,
-            author: element.authors[0],
-            shelf: "none",
-          };
-          newArrayResult.push(newSearchElement);
-          //setSearchResults(newArrayResult);  // --> Wrong place !!!
-        });
-        setSearchResults(newArrayResult);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  */
-
-// OLD Code: =========================================
-/*
-  const submitSearch = (event) => {
-    event.preventDefault();
-    searchABook(searchString); // Assuming you have a function to search books
-
-  // Optionally, you can also reset the search input field
-  setSearchString('');
-
-  };
-  */

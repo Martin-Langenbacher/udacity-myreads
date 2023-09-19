@@ -1,9 +1,7 @@
 import Book from "./Book";
 
-const Shelf = ({ shelf, books, bookShelfHasChanged }) => {
-
+const Shelf = ({ shelf, books, bookShelfHasChanged, shelfs }) => {
   const onChangeBook = (newBook) => {
-    console.log("newBook >>>>", newBook);
     bookShelfHasChanged(newBook);
   };
 
@@ -23,6 +21,7 @@ const Shelf = ({ shelf, books, bookShelfHasChanged }) => {
                       book={book}
                       shelf={book.shelf}
                       onBookChange={onChangeBook}
+                      shelfs={shelfs}
                     />
                   )
                 );

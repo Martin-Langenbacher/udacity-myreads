@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import BookShelfChanger from "./BookShelfChanger";
 
-const Book = ({ book, onBookChange }) => {
+const Book = ({ book, onBookChange, shelfs }) => {
   const handleClick = () => {
     console.log("Click navigates via 'to' already to the detail page");
   };
 
-  const handleShelfChange = (shelfName) => {
+  const handleShelfChange = (shelfName, shelfs) => {
     const newBook = { ...book, shelf: shelfName };
     onBookChange(newBook);
   };
@@ -26,7 +27,11 @@ const Book = ({ book, onBookChange }) => {
               backgroundImage: book.backgroundImage,
             }}
           ></Link>
-          <BookShelfChanger onShelfChange={handleShelfChange} />
+          <BookShelfChanger
+            onShelfChange={handleShelfChange}
+            shelfs={shelfs}
+            book={book}
+          />
         </div>
         <div className="book-title">{book.bookTitle}</div>
         <div className="book-authors">{book.author}</div>
@@ -35,4 +40,13 @@ const Book = ({ book, onBookChange }) => {
   );
 };
 
+Book.propTypes = {
+  // key: PropTypes.string.isRequired,
+  book: PropTypes.object.isRequired,
+  shelf: PropTypes.string,
+  onBookChange: PropTypes.func.isRequired,
+  shelfs: PropTypes.array.isRequired,
+};
+
 export default Book;
+
