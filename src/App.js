@@ -9,7 +9,7 @@ import DragAndDrop from "./experiments/DragAndDrop";
 import DragAndDropBooks from "./experiments/DragAndDropBooks";
 import HomePage from "./HomePage";
 import BookDetailPage from "./BookDetailPage";
-import { getAll } from "./BooksAPI";
+import { getAll, update } from "./BooksAPI";
 
 const SHELFS = [
   { shelfname: "currentlyReading", title: "Currently Reading" },
@@ -21,16 +21,19 @@ const SHELFS = [
 function App() {
   // const [books, setBooks] = useState(BOOKS);
   const [books, setBooks] = useState([]);
+
   const handleBooksDataChange = (newBook) => {
     const booksAfterChange = books.map((book) =>
       book.id === newBook.id ? newBook : book
     );
     setBooks(booksAfterChange);
+    update(newBook, newBook.shelf);
   };
 
   const bookAddedFromSearchPage = (bookToAdd) => {
     const newArrayOfBooks = [...books, bookToAdd];
     setBooks(newArrayOfBooks);
+    update(bookToAdd, bookToAdd.shelf);
   };
 
   // This is the code for the getAll-function
@@ -83,6 +86,13 @@ function App() {
       />
       <Route
         path="search"
+        exact
+        element={
+          <SearchPage addThisBook={bookAddedFromSearchPage} shelfs={SHELFS} />
+        }
+      />
+      <Route
+        path="search/:searchString"
         element={
           <SearchPage addThisBook={bookAddedFromSearchPage} shelfs={SHELFS} />
         }

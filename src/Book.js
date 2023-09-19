@@ -5,7 +5,7 @@ import BookShelfChanger from "./BookShelfChanger";
 
 const Book = ({ book, onBookChange, shelfs }) => {
   const handleClick = () => {
-    console.log("Click navigates via 'to' already to the detail page");
+    console.log("Click navigates via 'to' already to the detail page", book);
   };
 
   const handleShelfChange = (shelfName, shelfs) => {

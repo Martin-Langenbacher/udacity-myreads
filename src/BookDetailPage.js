@@ -11,6 +11,10 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
   const [additionalDataToABook, setAdditionalDataToABook] = useState({});
   const { id } = useParams();
 
+  const { searchString } = useParams();
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>searchString', searchString)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>id', id)
+
   const onChangeBookShelf = (bookWhichWillChange) => {
     const bookFromDetailPage = {
       id: bookWhichWillChange.id,
@@ -81,6 +85,7 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
           <Book
             key={id}
             book={detailBook}
+            shelf={detailBook.shelf}
             onBookChange={onChangeBookShelf}
             shelfs={shelfs}
           />
@@ -122,7 +127,7 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
         </Link>
       </div>
       <div className="search-button-back">
-        <Link to="/search">
+        <Link to={`/search/${searchString}`}>
           <button>Go to Search</button>
         </Link>
       </div>
