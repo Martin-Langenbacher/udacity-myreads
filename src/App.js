@@ -1,15 +1,14 @@
-// import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import "./App.css";
-//import { BOOKS } from "./experiments/DragAndDropBooks";
 import SearchPage from "./SearchPage";
 import DragAndDrop from "./experiments/DragAndDrop";
 import DragAndDropBooks from "./experiments/DragAndDropBooks";
 import HomePage from "./HomePage";
 import BookDetailPage from "./BookDetailPage";
 import { getAll, update } from "./BooksAPI";
+import NotFoundPage from "./NotFoundPage";
 
 const SHELFS = [
   { shelfname: "currentlyReading", title: "Currently Reading" },
@@ -88,13 +87,24 @@ function App() {
         path="search"
         exact
         element={
-          <SearchPage addThisBook={bookAddedFromSearchPage} shelfs={SHELFS} />
+          <SearchPage
+            addThisBook={bookAddedFromSearchPage}
+            onBooksDataChange={handleBooksDataChange}
+            shelfs={SHELFS}
+            books={books}
+          />
         }
       />
+      {/* Question: Not sure how to use it to persist the search query in SearchPage-search */}
       <Route
-        path="search/:searchString"
+        path="search/:searchStringId"
         element={
-          <SearchPage addThisBook={bookAddedFromSearchPage} shelfs={SHELFS} />
+          <SearchPage
+            addThisBook={bookAddedFromSearchPage}
+            onBooksDataChange={handleBooksDataChange}
+            shelfs={SHELFS}
+            books={books}
+          />
         }
       />
       <Route
@@ -110,6 +120,7 @@ function App() {
       />
       <Route path="experiments" element={<DragAndDrop />} />
       <Route path="draganddrop" element={<DragAndDropBooks />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

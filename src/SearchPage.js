@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
-import Header from "./components/Header";
+//import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+import Header from "./components/Header";
 import { search } from "./BooksAPI";
 import Book from "./Book";
 
-const SearchPage = ({ addThisBook, shelfs, books }) => {
+const SearchPage = ({ addThisBook, shelfs, books, onBooksDataChange }) => {
+  //const { searchStringId } = useParams();
+
+  //console.log("SearchPage>>>>>>>>>>>>", searchStringId);
+
+  // TODO:  How to put the search string into the address bar???
+  // example - but no idea...
+  // onChange={ event => navigate(`/loc/lib/${event.target.value}`) };
+
   const [searchString, setSearchString] = useState("");
   const [searchResults, setSearchResults] = useState();
   const [foundResult, setfoundResult] = useState(false);
@@ -19,7 +28,14 @@ const SearchPage = ({ addThisBook, shelfs, books }) => {
       author: bookWhichWillChange.author,
       shelf: bookWhichWillChange.shelf,
     };
-    addThisBook(newShelfForTheBook);
+
+    if (books.some((book) => book.id === bookWhichWillChange.id)) {
+      // Book already exist:
+      onBooksDataChange(newShelfForTheBook);
+    } else {
+      // New book (deep dive via SearchPage)
+      addThisBook(newShelfForTheBook);
+    }
   };
 
   useEffect(() => {
@@ -57,9 +73,11 @@ const SearchPage = ({ addThisBook, shelfs, books }) => {
             res?.forEach((element) => {
               const author =
                 element.authors && element.authors.length > 0
-                  ? // alt: ? element.authors[0]
-                    element.authors
+                  ? element.authors
                   : "Unknown";
+
+              const bookShelfOfBook =
+                books.find((book) => book.id === element?.id)?.shelf || "none";
 
               const urlForPic = `url("${element.imageLinks?.smallThumbnail}")`;
               const newSearchElement = {
@@ -67,7 +85,7 @@ const SearchPage = ({ addThisBook, shelfs, books }) => {
                 backgroundImage: urlForPic,
                 bookTitle: element.title,
                 author: author,
-                shelf: "none",
+                shelf: bookShelfOfBook,
               };
               newArrayResult.push(newSearchElement);
             });
@@ -80,7 +98,7 @@ const SearchPage = ({ addThisBook, shelfs, books }) => {
     };
     const debouncedSearch = debounce(bookSearch, 300);
     debouncedSearch(searchString);
-  }, [searchString]);
+  }, [searchString, books]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -113,14 +131,10 @@ const SearchPage = ({ addThisBook, shelfs, books }) => {
         <div className="search-books-results">
           <ol className="books-grid">
             {searchResults?.map((book) => {
-              const bookShelf = books?.filter((bookML) =>
-                bookML.id === book.id ? book.shelf : bookML.shelf
-              );
               return (
                 <Book
                   key={book.id}
                   book={book}
-                  shelf={bookShelf}
                   onBookChange={onChangeBookShelf}
                   shelfs={shelfs}
                 />

@@ -12,9 +12,6 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
   const { id } = useParams();
 
   const { searchString } = useParams();
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>searchString', searchString)
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>id', id)
-
   const onChangeBookShelf = (bookWhichWillChange) => {
     const bookFromDetailPage = {
       id: bookWhichWillChange.id,
@@ -41,12 +38,15 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
             ? res.authors.join(", ")
             : "Unknown";
 
+        const bookShelfOfBook =
+          books.find((book) => book.id === id)?.shelf || "none";
+
         const detailBookData = {
           id: id,
           backgroundImage: `url("${res.imageLinks?.smallThumbnail}")`,
           bookTitle: res.title,
           author: author,
-          shelf: "none",
+          shelf: bookShelfOfBook,
         };
 
         const additionalDataToABook = {
@@ -69,7 +69,7 @@ const BookDetailPage = ({ addThisBook, onBooksDataChange, books, shelfs }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [id]);
+  }, [id, books]);
 
   return (
     <>

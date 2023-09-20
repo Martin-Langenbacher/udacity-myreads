@@ -16,8 +16,6 @@ const BookShelfChanger = ({ onShelfChange, shelfs, book }) => {
         {shelfs.map((shelf) => (
           <option key={shelf.shelfname} value={shelf.shelfname}>
             {shelf.title}
-            {console.log("shelf", book.shelf)}
-            {console.log("book", book)}
           </option>
         ))}
       </select>

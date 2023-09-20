@@ -19,7 +19,6 @@ const Shelf = ({ shelf, books, bookShelfHasChanged, shelfs }) => {
                     <Book
                       key={book.id}
                       book={book}
-                      shelf={book.shelf}
                       onBookChange={onChangeBook}
                       shelfs={shelfs}
                     />
