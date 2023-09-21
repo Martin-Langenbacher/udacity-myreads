@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 import BookShelfChanger from "./BookShelfChanger";
 
 const Book = ({ book, onBookChange, shelfs }) => {
+  // good comment from review:
+  // It seems redundant to have a click handler (handleClick) on the Book component. If you're just logging
+  // the book details for debugging, remember to remove it in the final code. Otherwise, it might confuse
+  // other developers or yourself later.
   const handleClick = () => {
     console.log("Click navigates via 'to' already to the detail page", book);
   };
@@ -26,7 +30,7 @@ const Book = ({ book, onBookChange, shelfs }) => {
               height: 192,
               backgroundImage: book.backgroundImage,
             }}
-          ></Link>
+          />
           <BookShelfChanger
             onShelfChange={handleShelfChange}
             shelfs={shelfs}
@@ -49,4 +53,3 @@ Book.propTypes = {
 };
 
 export default Book;
-
